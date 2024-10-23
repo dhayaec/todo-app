@@ -163,9 +163,6 @@ describe('TodoApp Component', () => {
     await waitFor(() => {
       expect(fetchMock).toHaveBeenCalledWith('/api/todos', expect.any(Object));
     });
-
-    // Ensure the todo's completion status is updated in the DOM
-    // expect(checkbox).toBeChecked();
   });
 
   it('cancels the edit and restores the original todo title', async () => {

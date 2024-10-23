@@ -43,7 +43,6 @@ const customJestConfig = {
     '!**/.next/**',
     '!**/*.d.ts',
     '!<rootDir>/src/lib/db.ts',
-    '!<rootDir>/src/app/layout.tsx',
   ],
 };
 
