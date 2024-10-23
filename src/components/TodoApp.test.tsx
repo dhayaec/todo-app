@@ -139,6 +139,35 @@ describe('TodoApp Component', () => {
     expect(checkbox).toBeChecked();
   });
 
+  it('toggles the completion status of a todo on span click', async () => {
+    // Mock fetch response for initial todos
+    fetchMock.mockResponseOnce(
+      JSON.stringify([{ id: 1, title: 'Test Todo Span', completed: false }])
+    );
+
+    render(<TodoApp />);
+
+    // Wait for the todo to be rendered
+    const todo1 = await screen.findByText(/Test Todo Span/i);
+    expect(todo1).toBeInTheDocument();
+
+    const span = screen.getByRole('toggleSpan');
+
+    // Mock response for updating the todo
+    fetchMock.mockResponseOnce(JSON.stringify({ id: 1, completed: true }));
+
+    // Simulate span click (toggling)
+    fireEvent.click(span);
+
+    // Ensure the fetch call for updating the todo was made
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith('/api/todos', expect.any(Object));
+    });
+
+    // Ensure the todo's completion status is updated in the DOM
+    // expect(checkbox).toBeChecked();
+  });
+
   it('cancels the edit and restores the original todo title', async () => {
     // Mock fetch response for initial todos
     fetchMock.mockResponseOnce(

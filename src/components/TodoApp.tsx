@@ -152,6 +152,7 @@ const TodoApp = () => {
                   <span
                     className={`ml-2 ${todo.completed ? 'line-through' : ''}`}
                     onClick={() => toggleTodo(todo.id, !todo.completed)}
+                    role="toggleSpan"
                   >
                     {todo.title}
                   </span>
