@@ -15,6 +15,13 @@ const TodoApp = () => {
   const [editedTitle, setEditedTitle] = useState('');
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const editInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (editingTodoId && editInputRef.current) {
+      editInputRef.current.focus();
+    }
+  }, [editingTodoId]);
 
   useEffect(() => {
     fetchTodos();
@@ -52,6 +59,7 @@ const TodoApp = () => {
 
   const startEditing = (id: number, currentTitle: string) => {
     setEditingTodoId(id);
+    if (editInputRef.current) editInputRef.current.focus();
     setEditedTitle(currentTitle);
   };
 
@@ -124,6 +132,9 @@ const TodoApp = () => {
           placeholder="New Todo"
           autoFocus
           ref={inputRef}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') addTodo();
+          }}
         />
         <button
           type="button"
@@ -135,6 +146,7 @@ const TodoApp = () => {
       </div>
 
       <ul className="list-none">
+        {!filteredTodos.length && <li>Nothing here!</li>}
         {filteredTodos.map((todo) => (
           <li
             key={todo.id}
@@ -142,11 +154,17 @@ const TodoApp = () => {
           >
             {editingTodoId === todo.id ? (
               <div className="flex items-center justify-between w-full">
-                <div className="flex items-center">
+                <div className="flex items-center w-full">
                   <input
-                    className="border p-2"
+                    className="border p-2 w-full"
                     value={editedTitle}
                     onChange={(e) => setEditedTitle(e.target.value)}
+                    ref={editInputRef}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        saveEdit(todo.id);
+                      }
+                    }}
                   />
                 </div>
                 <div className="flex items-center">
