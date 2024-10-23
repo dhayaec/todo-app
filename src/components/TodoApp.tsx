@@ -91,11 +91,29 @@ const TodoApp = () => {
   );
 
   return (
-    <div className="max-w-lg mx-auto p-4">
+    <div className="max-w-lg min-w-[40%] mx-auto p-4">
       <div className="flex gap-2">
-        <button onClick={() => setFilter('all')}>All</button>
-        <button onClick={() => setFilter('completed')}>Completed</button>
-        <button onClick={() => setFilter('pending')}>Pending</button>
+        <button
+          type="button"
+          className={`${filter === 'all' && 'underline'}`}
+          onClick={() => setFilter('all')}
+        >
+          All
+        </button>
+        <button
+          type="button"
+          className={`${filter === 'completed' && 'underline'}`}
+          onClick={() => setFilter('completed')}
+        >
+          Completed
+        </button>
+        <button
+          type="button"
+          className={`${filter === 'pending' && 'underline'}`}
+          onClick={() => setFilter('pending')}
+        >
+          Pending
+        </button>
       </div>
 
       <div className="my-4">
@@ -108,6 +126,7 @@ const TodoApp = () => {
           ref={inputRef}
         />
         <button
+          type="button"
           onClick={addTodo}
           className="bg-blue-500 text-white p-2 mt-2 w-full"
         >
@@ -122,24 +141,30 @@ const TodoApp = () => {
             className="flex justify-between items-center my-2 cursor-pointer"
           >
             {editingTodoId === todo.id ? (
-              <div className="flex items-center">
-                <input
-                  className="border p-2"
-                  value={editedTitle}
-                  onChange={(e) => setEditedTitle(e.target.value)}
-                />
-                <button
-                  className="bg-green-500 text-white p-2 ml-2"
-                  onClick={() => saveEdit(todo.id)}
-                >
-                  Save
-                </button>
-                <button
-                  className="bg-gray-500 text-white p-2 ml-2"
-                  onClick={cancelEdit}
-                >
-                  Cancel
-                </button>
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center">
+                  <input
+                    className="border p-2"
+                    value={editedTitle}
+                    onChange={(e) => setEditedTitle(e.target.value)}
+                  />
+                </div>
+                <div className="flex items-center">
+                  <button
+                    type="button"
+                    className="bg-green-500 text-white p-2 ml-2"
+                    onClick={() => saveEdit(todo.id)}
+                  >
+                    Save
+                  </button>
+                  <button
+                    type="button"
+                    className="bg-gray-500 text-white p-2 ml-2"
+                    onClick={cancelEdit}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="flex items-center justify-between w-full">
@@ -159,12 +184,14 @@ const TodoApp = () => {
                 </div>
                 <div className="flex items-center">
                   <button
+                    type="button"
                     className="bg-yellow-500 text-white p-2 ml-2"
                     onClick={() => startEditing(todo.id, todo.title)}
                   >
                     Edit
                   </button>
                   <button
+                    type="button"
                     className="bg-red-500 text-white p-2 ml-2"
                     onClick={() => deleteTodo(todo.id)}
                   >
